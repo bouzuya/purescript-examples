@@ -14,7 +14,7 @@ import React.DOM.Props (charSet, className, lang, name, onChange, value)
 import ReactDOM (renderToStaticMarkup)
 
 type InputProps = { label :: String, value :: String }
-type InputState = { label :: String, value :: String }
+type InputState = { value :: String }
 
 getTargetValue :: Event -> Either MultipleErrors String
 getTargetValue e = runExcept do
@@ -30,11 +30,11 @@ inputChanged this event = do
   state <- readState this
   void $ case getTargetValue event of
     Left _ -> writeState this state
-    Right v -> writeState this { label: state.label, value: v }
+    Right v -> writeState this { value: v }
 
 -- <label>
 --   <span class="label">{label}</span>
---   <span class="value"><input name="name" value="{value}" /></span>
+--   <span class="value"><input name="name" value="{value}" onchange="..." /></span>
 --   <span class="result">{value}</span>
 -- </label>
 inputClass :: ReactClass InputProps
@@ -42,7 +42,7 @@ inputClass = createClass inputSpec
   where
     getInitialState = \this -> do
       props <- getProps this
-      pure { label: props.label, value: props.value }
+      pure { value: props.value }
     inputSpec = spec' getInitialState render
     render = \this -> do
       props <- getProps this
