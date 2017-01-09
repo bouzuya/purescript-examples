@@ -9,10 +9,11 @@ import Data.StrMap (fromFoldable)
 import Data.Tuple (Tuple(..))
 import Fetch (fetch)
 import Fetch.Options (FetchOptions, Method(..), headers, method, url)
+import Data.Options (Options)
 import Node.HTTP (HTTP)
 import Prelude (Unit, (<>))
 
-options :: FetchOptions
+options :: Options FetchOptions
 options =
   headers := fromFoldable [ Tuple "Accept" "application/json"
                           , Tuple "User-Agent" "bbn-server"

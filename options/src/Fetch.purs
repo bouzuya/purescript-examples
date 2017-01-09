@@ -1,14 +1,13 @@
 module Fetch (fetch) where
 
-import Prelude (Unit, (<<<))
-
 import Control.Monad.Cont.Trans (ContT(..))
 import Control.Monad.Eff (Eff)
 import Data.Either (Either(..))
 import Data.Foreign (Foreign)
-import Data.Options (options)
-import Fetch.Options (FetchOptions)
+import Data.Options (Options, options)
+import Fetch.Options (FetchOptions, defaults)
 import Node.HTTP (HTTP)
+import Prelude (Unit, ($), (<>), (<<<))
 
 foreign import fetchImpl ::
   forall eff.
@@ -17,6 +16,6 @@ foreign import fetchImpl ::
     -> (String -> Eff (http :: HTTP | eff) Unit)
     -> (Eff (http :: HTTP | eff) Unit)
 
-fetch :: forall eff. FetchOptions -> ContT Unit (Eff (http :: HTTP | eff)) (Either String String)
+fetch :: forall eff. Options FetchOptions -> ContT Unit (Eff (http :: HTTP | eff)) (Either String String)
 fetch opts = ContT \k ->
-  fetchImpl (options opts) (k <<< Right) (k <<< Left)
+  fetchImpl (options $ defaults <> opts) (k <<< Right) (k <<< Left)
