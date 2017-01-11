@@ -1,0 +1,31 @@
+{
+  "name": "strmap",
+  "version": "1.0.0",
+  "description": "strmap",
+  "author": "bouzuya <m@bouzuya.net> (http://bouzuya.net/)",
+  "devDependencies": {
+    "bower": "1.8.0",
+    "pulp": "10.0.0",
+    "purescript": "0.10.3"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "pulp": "pulp",
+    "pulp:browserify": "pulp browserify",
+    "pulp:build": "pulp build",
+    "pulp:docs": "pulp docs",
+    "pulp:init": "pulp init",
+    "pulp:login": "pulp login",
+    "pulp:psci": "pulp psci",
+    "pulp:publish": "pulp publish",
+    "pulp:run": "pulp run",
+    "pulp:server": "pulp server",
+    "pulp:test": "pulp test",
+    "pulp:version": "pulp version",
+    "start": "npm run pulp:run",
+    "test": "npm run pulp:test"
+  }
+}
