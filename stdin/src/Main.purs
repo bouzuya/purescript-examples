@@ -1,7 +1,8 @@
 module Main where
 
-import Control.Monad.Aff (Aff, makeAff, runAff)
+import Control.Monad.Aff (Aff, launchAff, makeAff)
 import Control.Monad.Eff (Eff, runPure)
+import Control.Monad.Eff.Class (liftEff)
 import Control.Monad.Eff.Console (CONSOLE, log)
 import Control.Monad.Eff.Exception (EXCEPTION)
 import Control.Monad.Eff.Unsafe (unsafeCoerceEff)
@@ -11,7 +12,7 @@ import Node.Buffer (Buffer, toString) as Buffer
 import Node.Encoding (Encoding(..)) as Encoding
 import Node.Process (stdin) as Process
 import Node.Stream (Readable, onReadable, readEither) as Stream
-import Prelude (Unit, (<$>), ($), bind, const, pure, unit, void)
+import Prelude (Unit, (<$>), ($), bind, void)
 
 toString
   :: Encoding.Encoding
@@ -42,4 +43,6 @@ readStdin' stdin = makeAff \_ ok -> do
 main
   :: forall eff
    . Eff ( console :: CONSOLE, err :: EXCEPTION | eff ) Unit
-main = void $ runAff (const (pure unit)) (\s -> log s) $ readStdin' Process.stdin
+main = void $ launchAff do -- ignore canceler
+  s <- readStdin' Process.stdin
+  liftEff $ log s
