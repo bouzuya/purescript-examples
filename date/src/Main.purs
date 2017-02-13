@@ -4,6 +4,8 @@ import Control.Alternative (pure)
 import Control.Monad.Eff (Eff)
 import Control.Monad.Eff.Console (CONSOLE, log)
 import Data.Date (Date, Month, Year, diff, exactDate) as D
+import Data.DateTime (DateTime(..)) as DT
+import Data.DateTime.Instant (fromDateTime, instant, unInstant) as DTI
 import Data.Time (Hour, Millisecond, Minute, Time(..), diff) as T
 import Data.Enum (toEnum)
 import Data.Maybe (Maybe)
@@ -117,9 +119,41 @@ example4 =
       log $ show duration3
       log $ show duration4
 
+-- (Just (DateTime (Date (Year 2006) January (Day 2)) (Time (Hour 15) (Minute 4) (Second 5) (Millisecond 0))))
+-- (Just (Instant (Milliseconds 1136214245000.0)))
+-- (Just (Instant (Milliseconds 1136214245000.0)))
+example5 :: forall e. Eff (console :: CONSOLE | e) Unit
+example5 =
+  let
+    mdt = do -- Maybe DateTime
+      dy <- toEnum 2006
+      dm <- toEnum 1
+      dd <- toEnum 2
+      d <- D.exactDate dy dm dd
+      th <- toEnum 15
+      tm <- toEnum 4
+      ts <- toEnum 5
+      tms <- toEnum 0
+      t <- pure $ T.Time th tm ts tms
+      pure $ DT.DateTime d t
+    mi = do -- Maybe Instant
+      dt <- mdt
+      pure $ DTI.fromDateTime dt
+    mi' = do -- Maybe Instant
+      i <- mi --
+      ms <- pure $ DTI.unInstant i -- uninstant :: Instant -> Milliseconds
+      i' <- DTI.instant ms -- instant :: Milliseconds -> Maybe Instant
+      pure i'
+  in
+    do
+      log $ show mdt
+      log $ show mi
+      log $ show mi'
+
 main :: forall e. Eff (console :: CONSOLE | e) Unit
 main = do
   example1
   example2
   example3
   example4
+  example5
