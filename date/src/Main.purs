@@ -1,0 +1,125 @@
+module Main where
+
+import Control.Alternative (pure)
+import Control.Monad.Eff (Eff)
+import Control.Monad.Eff.Console (CONSOLE, log)
+import Data.Date (Date, Month, Year, diff, exactDate) as D
+import Data.Time (Hour, Millisecond, Minute, Time(..), diff) as T
+import Data.Enum (toEnum)
+import Data.Maybe (Maybe)
+import Data.Show (show)
+import Data.Time.Duration (Days, Hours, Milliseconds, Minutes, Seconds)
+import Prelude (Unit, ($), (<$>), (<*>), bind)
+
+-- (Just (Date (Year 2016) February (Day 13)))
+example1 :: forall e. Eff (console :: CONSOLE | e) Unit
+example1 =
+  let
+    md :: Maybe D.Date
+    md = do
+      year <- toEnum 2016
+      month <- toEnum 2
+      dayOfMonth <- toEnum 13
+      D.exactDate year month dayOfMonth
+  in
+    do
+      log $ show md
+
+-- (Just (Days -1.0))
+-- (Just (Seconds -86400.0))
+example2 :: forall e. Eff (console :: CONSOLE | e) Unit
+example2 =
+  let
+    my :: Maybe D.Year
+    my = toEnum 2006
+    mm :: Maybe D.Month
+    mm = toEnum 1
+    md1 :: Maybe D.Date
+    md1 = do
+      y <- my
+      m <- mm
+      d <- toEnum 2
+      D.exactDate y m d
+    md2 :: Maybe D.Date
+    md2 = do
+      y <- my
+      m <- mm
+      d <- toEnum 3
+      D.exactDate y m d
+    duration1 :: Maybe Days
+    duration1 = do
+      d1 <- md1
+      d2 <- md2
+      pure $ D.diff d1 d2
+    duration2 :: Maybe Seconds
+    duration2 = D.diff <$> md1 <*> md2
+  in
+    do
+      log $ show duration1
+      log $ show duration2
+
+-- (Just (Time (Hour 15) (Minute 4) (Second 5) (Millisecond 0)))
+example3 :: forall e. Eff (console :: CONSOLE | e) Unit
+example3 =
+  let
+    mt1 :: Maybe T.Time
+    mt1 = do
+      h <- toEnum 15
+      m <- toEnum 4
+      s <- toEnum 5
+      ms <- toEnum 0
+      pure $ T.Time h m s ms -- exactTime は存在しない
+  in
+    log $ show mt1
+
+-- (Just (Hours -0.0002777777777777778))
+-- (Just (Minutes -0.016666666666666666))
+-- (Just (Seconds -1.0))
+-- (Just (Milliseconds -1000.0))
+example4 :: forall e. Eff (console :: CONSOLE | e) Unit
+example4 =
+  let
+    mh :: Maybe T.Hour
+    mh = toEnum 15
+    mm :: Maybe T.Minute
+    mm = toEnum 4
+    mms :: Maybe T.Millisecond
+    mms = toEnum 8
+    mt1 :: Maybe T.Time
+    mt1 = do
+      h <- mh
+      m <- mm
+      s <- toEnum 5
+      ms <- mms
+      pure $ T.Time h m s ms -- exactTime は存在しない
+    mt2 :: Maybe T.Time
+    mt2 = do
+      h <- mh
+      m <- mm
+      s <- toEnum 6
+      ms <- mms
+      pure $ T.Time h m s ms -- exactTime は存在しない
+    duration1 :: Maybe Hours
+    duration1 = do
+      t1 <- mt1
+      t2 <- mt2
+      pure $ T.diff t1 t2
+    duration2 :: Maybe Minutes
+    duration2 = T.diff <$> mt1 <*> mt2
+    duration3 :: Maybe Seconds
+    duration3 = T.diff <$> mt1 <*> mt2
+    duration4 :: Maybe Milliseconds
+    duration4 = T.diff <$> mt1 <*> mt2
+  in
+    do
+      log $ show duration1
+      log $ show duration2
+      log $ show duration3
+      log $ show duration4
+
+main :: forall e. Eff (console :: CONSOLE | e) Unit
+main = do
+  example1
+  example2
+  example3
+  example4
