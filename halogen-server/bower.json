@@ -1,0 +1,17 @@
+{
+  "name": "halogen-server",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "output"
+  ],
+  "dependencies": {
+    "purescript-prelude": "^2.1.0",
+    "purescript-console": "^2.0.0",
+    "purescript-halogen": "^0.12.0"
+  },
+  "devDependencies": {
+    "purescript-psci-support": "^2.0.0"
+  }
+}
