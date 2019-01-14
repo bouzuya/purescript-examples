@@ -1,0 +1,16 @@
+{
+  "name": "poker",
+  "version": "0.0.0",
+  "author": "bouzuya <m@bouzuya.net> (https://bouzuya.net/)",
+  "devDependencies": {
+    "purescript": "^0.12.1",
+    "purescript-spago": "^0.6.2"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "spago": "spago",
+    "test": "spago test"
+  }
+}

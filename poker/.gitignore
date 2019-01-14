@@ -1,0 +1,4 @@
+/.psc*
+/.spago/
+/node_modules/
+/output/
