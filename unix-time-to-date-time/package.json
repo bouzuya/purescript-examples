@@ -1,0 +1,17 @@
+{
+  "name": "unix-time-to-date-time",
+  "version": "0.0.0",
+  "author": "bouzuya <m@bouzuya.net> (https://bouzuya.net/)",
+  "devDependencies": {
+    "purescript": "^0.12.2",
+    "spago": "^0.6.4"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "build": "spago build",
+    "spago": "spago",
+    "test": "node -e \"require('./output/Test.Main/index.js').main();\""
+  }
+}
