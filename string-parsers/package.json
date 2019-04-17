@@ -1,0 +1,17 @@
+{
+  "name": "string-parsers",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "spago": "spago",
+    "test": "spago test"
+  },
+  "keywords": [],
+  "author": "bouzuya <m@bouzuya.net> (https://bouzuya.net/)",
+  "license": "MIT",
+  "devDependencies": {
+    "purescript": "^0.12.5",
+    "spago": "^0.7.5"
+  }
+}
