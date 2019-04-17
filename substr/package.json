@@ -1,0 +1,17 @@
+{
+  "name": "substr",
+  "version": "0.0.0",
+  "author": "bouzuya <m@bouzuya.net> (https://bouzuya.net/)",
+  "devDependencies": {
+    "purescript": "^0.12.5",
+    "spago": "^0.7.5"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "build": "spago build",
+    "spago": "spago",
+    "start": "spago run"
+  }
+}
