@@ -15,6 +15,7 @@ import Data.Traversable as Traversable
 import Data.Tuple as Tuple
 import NoParser (YMD(..))
 import NoParser as NoParser
+import Parser as Parser
 import Test.Unit (TestSuite)
 import Test.Unit as TestUnit
 import Test.Unit.Assert as Assert
@@ -129,14 +130,19 @@ tests = TestUnit.suite "Parser" do
   TestUnit.test "parseYMD" do
     Assert.equal
       (Maybe.Just (NoParser.YMD 2000 1 2))
-      (NoParser.parseYMD "2000/01/02")
+      (Parser.parseYMD "2000/01/02")
 
   TestUnit.test "parseHMS" do
     Assert.equal
       (Maybe.Just (NoParser.HMS 15 0 0))
-      (NoParser.parseHMS "15:00:00")
+      (Parser.parseHMS "15:00:00")
 
   TestUnit.test "parseDateTime" do
     Assert.equal
       (Maybe.Just (Tuple.Tuple (NoParser.YMD 1987 7 23) (NoParser.HMS 15 0 0)))
-      (NoParser.parseDateTime "1987/07/23 15:00:00")
+      (Parser.parseDateTime "1987/07/23 15:00:00")
+
+  TestUnit.test "parseDateTime'" do
+    Assert.equal
+      (Either.Left (StringParser.ParseError "year"))
+      (Parser.parseDateTime' "19a7/07/23 15:00:00")
