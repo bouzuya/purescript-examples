@@ -3,9 +3,9 @@ module Test.Main where
 -- TODO: Testing
 
 import Prelude
-import Control.Monad.Eff (Eff)
-import Control.Monad.Eff.Console (CONSOLE, log)
+import Effect (Effect)
+import Effect.Console (logShow)
 
-main :: forall e. Eff (console :: CONSOLE | e) Unit
+main :: Effect Unit
 main = do
-  log "You should add some tests."
+  logShow "You should add some tests."
