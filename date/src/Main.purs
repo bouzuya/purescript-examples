@@ -1,20 +1,21 @@
 module Main where
 
+import Prelude
+
 import Control.Alternative (pure)
-import Control.Monad.Eff (Eff)
-import Control.Monad.Eff.Console (CONSOLE, log)
 import Data.Date (Date, Month, Year, diff, exactDate) as D
 import Data.DateTime (DateTime(..)) as DT
 import Data.DateTime.Instant (fromDateTime, instant, unInstant) as DTI
-import Data.Time (Hour, Millisecond, Minute, Time(..), diff) as T
 import Data.Enum (toEnum)
 import Data.Maybe (Maybe)
 import Data.Show (show)
+import Data.Time (Hour, Millisecond, Minute, Time(..), diff) as T
 import Data.Time.Duration (Days, Hours, Milliseconds, Minutes, Seconds)
-import Prelude (Unit, ($), (<$>), (<*>), bind)
+import Effect (Effect)
+import Effect.Class.Console (logShow)
 
 -- (Just (Date (Year 2016) February (Day 13)))
-example1 :: forall e. Eff (console :: CONSOLE | e) Unit
+example1 :: Effect Unit
 example1 =
   let
     md :: Maybe D.Date
@@ -25,11 +26,11 @@ example1 =
       D.exactDate year month dayOfMonth
   in
     do
-      log $ show md
+      logShow $ show md
 
 -- (Just (Days -1.0))
 -- (Just (Seconds -86400.0))
-example2 :: forall e. Eff (console :: CONSOLE | e) Unit
+example2 :: Effect Unit
 example2 =
   let
     my :: Maybe D.Year
@@ -57,11 +58,11 @@ example2 =
     duration2 = D.diff <$> md1 <*> md2
   in
     do
-      log $ show duration1
-      log $ show duration2
+      logShow $ show duration1
+      logShow $ show duration2
 
 -- (Just (Time (Hour 15) (Minute 4) (Second 5) (Millisecond 0)))
-example3 :: forall e. Eff (console :: CONSOLE | e) Unit
+example3 :: Effect Unit
 example3 =
   let
     mt1 :: Maybe T.Time
@@ -72,13 +73,13 @@ example3 =
       ms <- toEnum 0
       pure $ T.Time h m s ms -- exactTime は存在しない
   in
-    log $ show mt1
+    logShow $ show mt1
 
 -- (Just (Hours -0.0002777777777777778))
 -- (Just (Minutes -0.016666666666666666))
 -- (Just (Seconds -1.0))
 -- (Just (Milliseconds -1000.0))
-example4 :: forall e. Eff (console :: CONSOLE | e) Unit
+example4 :: Effect Unit
 example4 =
   let
     mh :: Maybe T.Hour
@@ -114,15 +115,15 @@ example4 =
     duration4 = T.diff <$> mt1 <*> mt2
   in
     do
-      log $ show duration1
-      log $ show duration2
-      log $ show duration3
-      log $ show duration4
+      logShow $ show duration1
+      logShow $ show duration2
+      logShow $ show duration3
+      logShow $ show duration4
 
 -- (Just (DateTime (Date (Year 2006) January (Day 2)) (Time (Hour 15) (Minute 4) (Second 5) (Millisecond 0))))
 -- (Just (Instant (Milliseconds 1136214245000.0)))
 -- (Just (Instant (Milliseconds 1136214245000.0)))
-example5 :: forall e. Eff (console :: CONSOLE | e) Unit
+example5 :: Effect Unit
 example5 =
   let
     mdt = do -- Maybe DateTime
@@ -146,11 +147,11 @@ example5 =
       pure i'
   in
     do
-      log $ show mdt
-      log $ show mi
-      log $ show mi'
+      logShow $ show mdt
+      logShow $ show mi
+      logShow $ show mi'
 
-main :: forall e. Eff (console :: CONSOLE | e) Unit
+main :: Effect Unit
 main = do
   example1
   example2
