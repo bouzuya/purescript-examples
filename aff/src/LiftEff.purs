@@ -1,17 +1,21 @@
 module LiftEff where
 
-import Prelude (Unit, ($), bind)
-import Control.Monad.Aff (Aff, forkAff, later')
-import Control.Monad.Eff.Class (liftEff)
-import Control.Monad.Eff.Console (CONSOLE, log)
+import Prelude
 
-aff :: forall e. Aff (console :: CONSOLE | e) Unit
+import Effect.Aff (Aff, Milliseconds(..), delay, forkAff)
+import Effect.Class (liftEffect)
+import Effect.Class.Console (logShow)
+
+aff :: Aff Unit
 aff = do
-  liftEff $ log "LiftEff.aff -----"
-  liftEff $ log "1"
-  forkAff $ later' 500 $ liftEff $ log "later 500 (LiftEff.aff forked)"
-  liftEff $ log "2"
-  later' 1000 $ liftEff $ log "later 1000"
+  liftEffect $ logShow "LiftEff.aff -----"
+  liftEffect $ logShow "1"
+  _ <- forkAff do
+    delay (Milliseconds 500.0)
+    liftEffect $ logShow "later 500 (LiftEff.aff forked)"
+  liftEffect $ logShow "2"
+  delay (Milliseconds 1000.0)
+  liftEffect $ logShow "later 1000"
 
 -- LiftEff.aff -----
 -- 1
