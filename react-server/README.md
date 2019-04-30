@@ -9,3 +9,7 @@
 [purescript-by-example-8]: https://leanpub.com/purescript/read#leanpub-auto-the-eff-monad
 [purescript-contrib/purescript-react]: https://github.com/purescript-contrib/purescript-react
 [purescript-contrib/purescript-react-dom]: https://github.com/purescript-contrib/purescript-react-dom
+
+
+# reference
+[https://github.com/doolse/purescript-dispatcher-react/blob/master/test/Examples/AjaxExample.purs]
