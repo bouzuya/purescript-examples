@@ -1,38 +1,34 @@
 module Main where
 
-import Prelude (Unit, ($), (*), bind, show)
-import Control.Monad.Eff (Eff, runPure)
-import Control.Monad.Eff.Console (CONSOLE, log)
-import Control.Monad.ST (ST, modifySTRef, newSTRef, pureST, readSTRef, runST, writeSTRef)
+import Prelude
 
-example1 :: forall e h. Eff (console :: CONSOLE, st :: ST h | e) Unit
+import Control.Monad.ST (run)
+import Control.Monad.ST.Internal (modify, new, read)
+import Effect (Effect)
+import Effect.Console (logShow)
+import Effect.Ref as Ref
+
+example1 :: Effect Unit
 example1 = do
-  ref <- newSTRef 123
-  n1 <- readSTRef ref
-  log $ show n1
-  n2 <- writeSTRef ref 456
-  log $ show n2
-  n3 <- modifySTRef ref \x -> x * 2
-  log $ show n3
+  ref <- Ref.new 123
+  n1 <- Ref.read ref
+  logShow $ show n1
+  Ref.write 456 ref
+  n2 <- Ref.read ref
+  logShow $ show n2
+  n3 <- Ref.modify (\x -> x * 2) ref
+  logShow $ show n3
 
-example2 :: Int
-example2 = pureST do
-  ref <- newSTRef 1
-  modifySTRef ref \x -> x * 2
-  modifySTRef ref \x -> x * 2
-  modifySTRef ref \x -> x * 2
-  readSTRef ref
+example2 :: Int 
+example2 = run do
+  ref <- new 1
+  _ <- modify (\x -> x * 2) ref
+  _ <- modify (\x -> x * 2) ref
+  _ <- modify (\x -> x * 2) ref
+  read ref
 
-example3 :: Int
-example3 = runPure $ runST do
-  ref <- newSTRef 2
-  modifySTRef ref \x -> x * 2
-  modifySTRef ref \x -> x * 2
-  modifySTRef ref \x -> x * 2
-  readSTRef ref
-
-main :: forall e h. Eff (console :: CONSOLE, st :: ST h | e) Unit
+main :: Effect Unit
 main = do
   example1
-  log $ show example2
-  log $ show example3
+  logShow $ show example2
+

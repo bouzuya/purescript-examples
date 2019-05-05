@@ -1,8 +1,8 @@
 module Main where
 
-import Control.Monad.Eff (Eff)
-import Control.Monad.Eff.Console (CONSOLE, log)
-import Prelude (Unit)
+import Prelude
+import Effect (Effect)
+import Effect.Console (logShow)
 
-main :: Eff (console :: CONSOLE) Unit
-main = log "Hello World!"
+main :: Effect Unit
+main = logShow "Hello World!"

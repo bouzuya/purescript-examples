@@ -1,21 +1,21 @@
 module Main where
 
-import Control.Monad.Eff (Eff)
-import Control.Monad.Eff.Console (CONSOLE, log)
-import Data.List (List)
-import Data.StrMap
+import Prelude
+
 import Data.Maybe (Maybe(..))
 import Data.Tuple (Tuple(..))
-import Prelude (Unit, ($), (<), (+), (*), (==), show)
+import Effect (Effect)
+import Effect.Class.Console (logShow)
+import Foreign.Object
 
 -- fromList ((Tuple "k1" 1) : (Tuple "k2" 2) : Nil)
-map1 :: StrMap Int
+map1 :: Object Int
 map1 = fromFoldable [ (Tuple "k1" 1)
                     , (Tuple "k2" 2)
                     ]
 
 -- (1: 2: Nil)
-values1 :: List Int
+values1 :: Array Int
 values1 = values map1
 
 -- (Just 1)
@@ -87,19 +87,19 @@ isSubmap2 :: Boolean
 isSubmap2 = isSubmap (insert "k1" 1 empty) map1
 
 -- 0.0
-size1 :: Number
+size1 :: Int
 size1 = size empty
 
 -- 1.0
-size2 :: Number
+size2 :: Int
 size2 = size $ insert "k1" 1 empty
 
 -- 2.0
-size3 :: Number
+size3 :: Int
 size3 = size map1
 
 -- 3.0
-size4 :: Number
+size4 :: Int
 size4 = size $ insert "k3" 3 map1
 
 -- "fromList ((Tuple \"k1\" 1) : Nil)"
@@ -140,7 +140,7 @@ update2 = show $ update (\_ -> Nothing) "k2" $ map1
 
 -- "((Tuple \"k1\" 1) : Nil)"
 toList1 :: String
-toList1 = show $ toList $ update (\_ -> Nothing) "k2" $ insert "k2" 2 $ singleton "k1" 1
+toList1 = show $ update (\_ -> Nothing) "k2" $ insert "k2" 2 $ singleton "k1" 1
 
 -- ["k1","k2"]
 keys1 :: Array String
@@ -154,5 +154,5 @@ union1 = show $ union map1 $ insert "k3" 3 map1
 mapWithKey1 :: String
 mapWithKey1 = show $ mapWithKey (\_ v -> 2 * v) map1
 
-main :: forall e. Eff (console :: CONSOLE | e) Unit
-main = log $ show map1
+main :: Effect Unit
+main = logShow $ show map1

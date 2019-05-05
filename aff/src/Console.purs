@@ -1,19 +1,24 @@
 module Console where
 
-import Prelude (Unit, ($), bind)
-import Control.Monad.Aff (Aff, forkAff, later')
-import Control.Monad.Aff.Console (CONSOLE, log)
+import Prelude
 
-aff :: forall e. Aff (console :: CONSOLE | e) Unit
+import Effect.Aff (Aff, Milliseconds(..), delay, forkAff)
+import Effect.Class.Console (logShow)
+
+aff :: Aff Unit
 aff = do
-  log "Console.aff -----"
-  log "1"
-  later' 500 $ log "later 500"
-  log "2"
-  forkAff $ later' 1000 $ log "later 1000 (Console.aff forked)"
-  log "3"
-  later' 500 $ log "later 500"
-  log "4"
+  logShow "Console.aff -----"
+  logShow "1"
+  delay (Milliseconds 500.0)
+  logShow "later 500"
+  logShow "2"
+  _ <- forkAff do
+    delay (Milliseconds 1000.0)
+    logShow "later 1000 (Console.aff forked)"
+  logShow "3"
+  delay (Milliseconds 500.0)
+  logShow "later 500"
+  logShow "4"
 
 -- Console.aff -----
 -- 1

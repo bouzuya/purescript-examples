@@ -7,12 +7,17 @@
     "output"
   ],
   "dependencies": {
-    "purescript-prelude": "^2.1.0",
-    "purescript-console": "^2.0.0",
-    "purescript-react": "^2.0.0",
-    "purescript-react-dom": "^2.0.0"
+    "purescript-prelude": "^4.1.1",
+    "purescript-console": "^4.2.0",
+    "purescript-react": "^6.1.0",
+    "purescript-react-dom": "^6.0.1",
+    "purescript-transformers": "^4.2.0",
+    "purescript-foreign": "^5.0.0",
+    "purescript-web-dom": "^2.0.0",
+    "purescript-web-html": "^2.0.1",
+    "purescript-web-events": "^2.0.1"
   },
   "devDependencies": {
-    "purescript-psci-support": "^2.0.0"
+    "purescript-psci-support": "^4.0.0"
   }
 }

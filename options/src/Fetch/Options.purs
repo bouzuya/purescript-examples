@@ -7,11 +7,11 @@ module Fetch.Options
   , url
   ) where
 
-import Prelude (show)
-import Data.Show (class Show)
+import Prelude
+
 import Data.Functor.Contravariant (cmap)
-import Data.Options (Option, Options, defaultToOptions, options, opt)
-import Data.StrMap (StrMap)
+import Data.Options (Option, Options, defaultToOptions, opt)
+import Foreign.Object (Object)
 
 data Method = DELETE | GET | HEAD | PATCH | POST | PUT
 
@@ -28,7 +28,7 @@ data FetchOptions
 defaults :: Options FetchOptions
 defaults = defaultToOptions "method" GET
 
-headers :: Option FetchOptions (StrMap String)
+headers :: Option FetchOptions (Object String)
 headers = opt "headers"
 
 method :: Option FetchOptions Method
